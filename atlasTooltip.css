@@ -1,0 +1,153 @@
+﻿/*******************************************************/
+/* STYLESHEET FOR ATLAS TOOLTIP JQUERY PLUGIN */
+/*******************************************************/
+
+/* TIPS: */
+/*
+    NOTE: <position> in this context is the position of the tooltip you set when
+          initializing the tooltip. "top", "bottom", "left", "right"
+
+ 1. Changing background color:
+      Find (CTRL+F): .atlas-tooltip-<position>.
+      In this class, change the background property to what color you want.
+      Find (CTRL+F): <position> background color.
+      In this :after class, change the border-<position>-color property to what color you want.
+ 2. Changing the border color:
+      Find (CTRL+F): .atlas-tooltip-<position>.
+      In this class, change the border property to what color you want.
+      Find (CTRL+F): <position> border color.
+      In this :before class, change the border-<position>-color property to what color you want.
+
+*/
+
+/*==============================================================*/
+/* TOOLTIP CONTAINER */
+/*==============================================================*/
+
+.atlas-tooltipContainer
+{
+    position:absolute;
+    visibility:hidden;
+    opacity:0;
+    z-index:99;
+    min-width:50px;
+    font-family:'Calibri';
+    background:none;
+}
+    /* these classes will fill the hover gap between the tooltip and the host element 
+       so that you can actually hover on the tooltip as well */
+    .atlas-top:before
+    {
+        bottom: -10px;
+        content: " ";
+        display: block;
+        height:10px;
+        left: 0;
+        position: absolute;
+        width: 100%;
+    }
+    .atlas-bottom:before
+    {
+        top: -10px;
+        content: " ";
+        display: block;
+        height:10px;
+        left: 0;
+        position: absolute;
+        width: 100%;
+    }
+    .atlas-right:before
+    {
+        left: -10px;
+        content: " ";
+        display: block;
+        height:100%;
+        position: absolute;
+        width: 10px;
+    }
+    .atlas-left:before
+    {
+        right: -10px;
+        content: " ";
+        display: block;
+        height:100%;
+        position: absolute;
+        width: 10px;
+    }
+
+
+/*==============================================================*/
+/* TOOLTIP */
+/*==============================================================*/
+
+/* tooltip settings */
+.atlas-tooltip-bottom, .atlas-tooltip-top, .atlas-tooltip-left, .atlas-tooltip-right {
+    position: relative;
+    padding:4px;
+    border: 1px solid #40a3d5;
+    border-radius:6px;
+    background: #bbe8ff;
+    color:#5f7b90;
+    box-shadow:inset 0px 2px 0px 0px #e0f4ff;
+    text-shadow: 1px 0px rgba(255, 255, 255, 0.5);
+}
+
+/* ============== */
+/* tooltip-bottom */
+/* ============== */
+.atlas-tooltip-bottom:after, .atlas-tooltip-bottom:before { bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+/* bottom tail background color */
+.atlas-tooltip-bottom:after { border-color: rgba(136, 183, 213, 0); border-bottom-color: #bbe8ff; border-width: 5px; left: 50%; margin-left: -5px; }
+/* bottom tail border color */
+.atlas-tooltip-bottom:before { border-color: rgba(194, 225, 245, 0); border-bottom-color: #40a3d5; border-width: 6px; left: 50%; margin-left: -6px; }
+
+/* =========== */
+/* tooltip top */
+/* =========== */
+.atlas-tooltip-top:after, .atlas-tooltip-top:before { top: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+/* top tail background color */
+.atlas-tooltip-top:after { border-color: rgba(136, 183, 213, 0); border-top-color: #88b7d5; border-width: 5px; left: 50%; margin-left: -5px; }
+/* top tail border color */
+.atlas-tooltip-top:before { border-color: rgba(194, 225, 245, 0); border-top-color: #c2e1f5; border-width: 6px; left: 50%; margin-left: -6px; }
+
+/* ============= */
+/* tooltip right */
+/* ============= */
+.atlas-tooltip-right:after, .atlas-tooltip-right:before { right: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+/* right tail background color */
+.atlas-tooltip-right:after { border-color: rgba(136, 183, 213, 0); border-right-color: #88b7d5; border-width: 5px; top: 50%; margin-top: -5px; }
+/* right tail border color */
+.atlas-tooltip-right:before { border-color: rgba(194, 225, 245, 0); border-right-color: #c2e1f5; border-width: 6px; top: 50%; margin-top: -6px; }
+
+/* ============ */
+/* tooltip left */
+/* ============ */
+.atlas-tooltip-left:after, .atlas-tooltip-left:before { left: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+/* left tail background color */
+.atlas-tooltip-left:after { border-color: rgba(136, 183, 213, 0); border-left-color: #88b7d5; border-width: 5px; top: 50%; margin-top: -5px; }
+/* left tail border color */
+.atlas-tooltip-left:before { border-color: rgba(194, 225, 245, 0); border-left-color: #c2e1f5; border-width: 6px; top: 50%; margin-top: -6px; }
+
+.atlas-showTool-bottom, .atlas-showTool-left, .atlas-showTool-right, .atlas-showTool-top
+{
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.2s ease-in-out;
+}
+
+.atlas-showTool-bottom
+{
+    margin-top:2px;
+}
+.atlas-showTool-left
+{
+    margin-left:-2px;
+}
+.atlas-showTool-right
+{
+    margin-left:2px;
+}
+.atlas-showTool-top
+{
+    margin-top:-2px;
+}
