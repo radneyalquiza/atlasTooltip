@@ -1,7 +1,7 @@
 ﻿// ========================================================================================== //
-//  Atlas Tooltip (v0.3)
+//  Atlas Tooltip (v0.95)
 //  by Radney Aaron Alquiza
-//  Oct 24, 2013
+//  v0.95 - Oct 27, 2013 : 1:18AM
 // ========================================================================================== //
 
 // this tooltip plugin can be applied to any element on the viewport
@@ -12,6 +12,12 @@
 // * settings.thisobject is the object you passed when you initialized the plugin. This is the DOM element
 //   you actually hover on.
 
+/* as of version 0.9, you can add multiple tooltips on a single element.
+   HOWEVER, this opens a possibility of a bug where you may add 2 tooltips in the same position,
+   making one cover the other.
+   */
+
+
 (function ($) {
     
     $.fn.atlasTooltip = function (options_or_method, otherparams) {
@@ -20,8 +26,7 @@
             textColor: '#FFF',
             textSize: '9px',
             contents: 'Testing tooltip',
-            tooltip: null,
-            pos: 'bottom'
+            pos: 'bottom',
         };
 
         var domelement = null;
@@ -110,6 +115,7 @@
         }
     }
     function addTooltip(settings) {
+        
         var posclass = decidePosition(settings.pos);
         var tool = $("<div class='atlas-tooltipContainer'></div>");
 
@@ -121,13 +127,15 @@
 
         $('body').append(tool);
         settings.thisobject.tooltip = tool;
-        
+
         var toolinner = $("<div class='" + posclass + "'></div>");
 
         settings.thisobject.tooltip.append(toolinner);
         settings.thisobject.toolinner = toolinner;
-        if (/(<([^>]+)>)/ig.test(settings.contents))
+        if (/(<([^>]+)>)/ig.test(settings.contents) && typeof settings.contents == "string" )
             settings.thisobject.toolinner.append(settings.contents);
+        else if (typeof settings.contents != "string")
+            settings.contents.appendTo(settings.thisobject.toolinner);
         else
             settings.thisobject.toolinner.append('<span>' + settings.contents + '</span>');
 
