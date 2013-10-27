@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="../Scripts/jquery-1.9.1.js"></script>
+    <script src="../Scripts/jquery.atlasTooltip.js"></script>
+    <link href="../Styles/atlasTooltip.css" rel="stylesheet" />
+    <title>AtlasTooltip - A lightweight, easy-to-use Tooltip plugin</title>
+
+    <script>
+        $(function () {
+            $("#tool").atlasTooltip({ pos: 'top' });
+            $("#tool2").atlasTooltip({ pos: 'left' });
+            $("#tool3").atlasTooltip({ pos: 'right', contents: "Good ol' strings!" });
+            $("#tool3").atlasTooltip({ pos: 'left', contents: '<a href="#">String with HTML tags!</a>' });
+            $("#tool3").atlasTooltip({ pos: 'bottom', contents: $('#inputcontent') });
+            $("#chk").atlasTooltip({ pos: 'bottom', contents: 'Any element' });
+        });
+
+    </script>
+
+</head>
+<body>
+    <div style="width:60%; margin:auto; text-align:center">
+     <h3>AtlasTooltip</h3>
+    <h4>v0.96</h4>
+    <h5>by Radney Aaron Alquiza</h5>
+
+    <p>AtlasTooltip is a lightweight (8kb JS file + 6kb CSS file), easy-to-use jQuery plugin for use with any html element on the viewport.<br />
+        This is still at beta stage so full functionality is still not completely implemented. There will be bugs.<br />
+        Feel free to use it, and please report any bugs or features you want added to the plugin.<br />
+        <br />
+        I've tested this against jQuery 1.7.1 and 1.9.1
+    </p>
+    <hr />
+        <p><strong>Features as of v0.96:</strong></p>
+        <ul>
+            <li>Position tooltips: top, bottom, left, right.</li>
+            <li>Customizable colors (via the CSS file provided).</li>
+            <li>Pass any of the following: text, text containing html tags, DOM elements (jQuery, javascript objects).</li>
+        </ul>
+        <p><strong>Features coming to v1.0:</strong></p>
+        <ul>
+            <li>Customize delay of showing the tooltip. (hide is, for now, almost instant)</li>
+            <li>Control when to show tooltips, even without hovering over the element.</li>
+        </ul>
+    <hr />
+        <p><strong>Bugs I've found so far:</strong></p>
+        <ul>
+            <li>No position awareness (yet) - the tooltip will be cut off if positioned near the edge of the viewport.</li>
+            <li>Multiple tooltips with the same position will overlap, one covering the other.</li>
+            <li>Positioning not fully centered relative to the element to be tipped.</li>
+        </ul>
+    <hr />
+        <br />
+        <br />
+    <div id="tool" style="background-color: #337abe; width:300px; height: 50px; margin-top: 2px;">Content</div>
+    <br />
+    <div id="tool2" style="background-color: #337abe; width:100px; height: 30px; margin-top: 2px;">Content</div>
+    <br />
+    <input type="button" id="tool3" style="width: 100px; display: block;" value="hover" />
+    <br />
+    <div id="inputcontent" style="background-color: #93d5c7; font-size: 1.1em"><strong>jQuery Object via id selector!</strong></div>
+    <br />
+     <input type="checkbox" id="chk" />
+    </div>
+        <br />
+        <br /><br />
+</body>
+</html>

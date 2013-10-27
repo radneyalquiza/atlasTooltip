@@ -1,31 +1,34 @@
 ﻿// ========================================================================================== //
-//  Atlas Tooltip (v0.95)
-//  by Radney Aaron Alquiza
-//  v0.95 - Oct 27, 2013 : 1:18AM
+// Atlas Tooltip (v0.95)
+// by Radney Aaron Alquiza
+// v0.96 - Oct 27, 2013 : 1:18AM
+// v0.97 - Oct 27, 2013 : 4:06AM
 // ========================================================================================== //
 
 // this tooltip plugin can be applied to any element on the viewport
+
+/* BUILT WITH: jQuery 1.9.1 */
+
 
 // NOTES:
 // * This plugin wraps any NON-HTML content passed into it into a <p> tag.
 // * If you pass a string containing HTML tags, the plugin simply appends this html element
 // * settings.thisobject is the object you passed when you initialized the plugin. This is the DOM element
-//   you actually hover on.
+// you actually hover on.
 
-/* as of version 0.9, you can add multiple tooltips on a single element.
-   HOWEVER, this opens a possibility of a bug where you may add 2 tooltips in the same position,
-   making one cover the other.
-   */
+/* as of version 0.96, you can add multiple tooltips on a single element.
+HOWEVER, this opens a possibility of a bug where you may add 2 tooltips in the same position,
+making one cover the other.
+*/
 
 
 (function ($) {
-    
+
     $.fn.atlasTooltip = function (options_or_method, otherparams) {
         // default settings
         var atlastool = {
-            textColor: '#FFF',
-            textSize: '9px',
-            contents: 'Testing tooltip',
+            textSize: '0.9em',
+            contents: 'Default tooltip',
             pos: 'bottom',
         };
 
@@ -52,7 +55,7 @@
 
     function decidePosition(pos) {
 
-        switch(pos) {
+        switch (pos) {
             case 'top':
                 return "atlas-tooltip-top";
             case 'bottom':
@@ -67,41 +70,50 @@
     }
 
     function setPosition(settings) {
-        var top = settings.thisobject.offset().top;
-        var left = settings.thisobject.offset().left;
+        var vtop = settings.thisobject.offset().top;
+        var vleft = settings.thisobject.offset().left;
         var ht = settings.thisobject.outerHeight();
         var wt = settings.thisobject.outerWidth();
+        
         switch (settings.pos) {
             case 'top':
                 settings.thisobject.tooltip.addClass('atlas-top');
                 settings.thisobject.tooltip.css({
-                    'font-size': settings.fontSize,
-                    'top': (top-settings.thisobject.tooltip.outerHeight()+3) + 'px',
-                    'left': ((left + (wt / 2)) - (settings.thisobject.tooltip.outerWidth() / 2)) + 'px'
+                    'font-size': settings.textSize,
+                });
+                settings.thisobject.tooltip.offset({
+                    top: vtop - settings.thisobject.tooltip.outerHeight(),
+                    left: (vleft + (wt / 2)) - (settings.thisobject.tooltip.outerWidth()/2)
                 });
                 break;
             case 'bottom':
                 settings.thisobject.tooltip.addClass('atlas-bottom');
                 settings.thisobject.tooltip.css({
-                    'font-size': settings.fontSize,
-                    'top': ((top+ht)+3) + 'px',
-                    'left': ((left + (wt / 2)) - (settings.thisobject.tooltip.outerWidth() / 2)) + 'px'
+                    'font-size': settings.textSize,
+                });
+                settings.thisobject.tooltip.offset({
+                    top: vtop + ht,
+                    left: (vleft + (wt / 2)) - (settings.thisobject.tooltip.outerWidth() / 2)
                 });
                 break;
             case 'left':
                 settings.thisobject.tooltip.addClass('atlas-left');
                 settings.thisobject.tooltip.css({
-                    'font-size': settings.fontSize,
-                    'top': (((top + (ht / 2)) - (settings.thisobject.tooltip.outerHeight()/2)) + 3) + 'px',
-                    'left': (left - settings.thisobject.tooltip.outerWidth()) + 'px'
+                    'font-size': settings.textSize,
+                });
+                settings.thisobject.tooltip.offset({
+                    top: (vtop + (ht / 2)) - (settings.thisobject.tooltip.outerHeight() / 2),
+                    left: vleft - settings.thisobject.tooltip.outerWidth()
                 });
                 break;
             case 'right':
                 settings.thisobject.tooltip.addClass('atlas-right');
                 settings.thisobject.tooltip.css({
-                    'font-size': settings.fontSize,
-                    'top': (((top + (ht / 2)) - (settings.thisobject.tooltip.outerHeight() / 2)) + 3) + 'px',
-                    'left': (left+wt) + 'px'
+                    'font-size': settings.textSize,
+                });
+                settings.thisobject.tooltip.offset({
+                    top: (vtop + (ht / 2)) - (settings.thisobject.tooltip.outerHeight() / 2),
+                    left: vleft + wt
                 });
                 break;
             default:
@@ -115,15 +127,15 @@
         }
     }
     function addTooltip(settings) {
-        
+
         var posclass = decidePosition(settings.pos);
         var tool = $("<div class='atlas-tooltipContainer'></div>");
 
         /*var parent = settings.thisobject.parents().filter(function () {
-            // reduce to only relative position or "body" elements
-            return $(this).is('body') || $(this).css('position') == 'relative';
-        }).slice(0, 1); // grab only the "first"
-        */
+// reduce to only relative position or "body" elements
+return $(this).is('body') || $(this).css('position') == 'relative';
+}).slice(0, 1); // grab only the "first"
+*/
 
         $('body').append(tool);
         settings.thisobject.tooltip = tool;
@@ -132,27 +144,27 @@
 
         settings.thisobject.tooltip.append(toolinner);
         settings.thisobject.toolinner = toolinner;
-        if (/(<([^>]+)>)/ig.test(settings.contents) && typeof settings.contents == "string" )
+        if (/(<([^>]+)>)/ig.test(settings.contents) && typeof settings.contents == "string")
             settings.thisobject.toolinner.append(settings.contents);
         else if (typeof settings.contents != "string")
             settings.contents.appendTo(settings.thisobject.toolinner);
         else
             settings.thisobject.toolinner.append('<span>' + settings.contents + '</span>');
 
-        setPosition(settings);
+       
         addEvents(settings);
     }
-    
+
     function addEvents(settings) {
         settings.thisobject.tooltip.hover(
-            function () { $(this).addClass('atlas-showTool-' + settings.pos);},
-            function () { $(this).removeClass('atlas-showTool-' + settings.pos);}
+            function () { $(this).addClass('atlas-showTool-' + settings.pos); },
+            function () { $(this).removeClass('atlas-showTool-' + settings.pos); }
         );
         settings.thisobject.hover(
             // hover in
-            function () { settings.thisobject.tooltip.addClass('atlas-showTool-' + settings.pos);},
+            function () { setPosition(settings); settings.thisobject.tooltip.addClass('atlas-showTool-' + settings.pos); },
             // hover out
-            function () { settings.thisobject.tooltip.removeClass('atlas-showTool-' + settings.pos); }
+            function () { setPosition(settings); settings.thisobject.tooltip.removeClass('atlas-showTool-' + settings.pos); }
         );
     }
 
