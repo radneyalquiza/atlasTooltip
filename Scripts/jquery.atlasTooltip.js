@@ -176,8 +176,8 @@ making one cover the other.
     function addEvents(settings) {
 
         if (settings.sticky == false) {
-            settings.thisobject.tooltip.on('mouseenter', function () { $(this).addClass('atlas-showTool-' + settings.pos); });
-            settings.thisobject.tooltip.on('mouseleave', function () { $(this).removeClass('atlas-showTool-' + settings.pos); });
+            //settings.thisobject.tooltip.on('mouseenter', function () { $(this).addClass('atlas-showTool-' + settings.pos); });
+            //settings.thisobject.tooltip.on('mouseleave', function () { $(this).removeClass('atlas-showTool-' + settings.pos); });
             settings.thisobject.on('mouseenter', function () { setPosition(settings); settings.thisobject.tooltip.addClass('atlas-showTool-' + settings.pos); });
             settings.thisobject.on('mouseleave', function () { setPosition(settings); settings.thisobject.tooltip.removeClass('atlas-showTool-' + settings.pos); });
         }
@@ -202,36 +202,48 @@ making one cover the other.
 
 
             return object.each(function () {
-                var settings = $(this).data('atlastool');
-                settings.thisobject = $(this);
-                if (settings.tooltip == null) {
-                    addTooltip(settings);
+                if (!$(this).hasClass('hasTooltip')) {
+                    console.log('called');
+                    var settings = $(this).data('atlastool');
+                    settings.thisobject = $(this);
+                    if (settings.tooltip == null) {
+                        addTooltip(settings);
+                    }
+                    // bind the jquery reference to the element (the div or any container)
+                    $(this).data('data', $(this));
+                    $(this).addClass('hasTooltip');
+                    //options.onClose.call(this);
                 }
-                // bind the jquery reference to the element (the div or any container)
-                $(this).data('data', $(this));
-                //options.onClose.call(this);
             });
         },
         show: function (settings) {
-            setPosition(settings);
-            settings.thisobject.tooltip.addClass('atlas-showTool-' + settings.pos);
-            if (settings.sticky == true) {
-                if (settings.thisobject.tooltip.find('.stickyclose').length < 1)
-                    settings.thisobject.tooltip.find('div[class^="atlas-tool"]').append('<span class="stickyclose"></span>');
-                settings.thisobject.tooltip.find('div[class^="atlas-tool"]').addClass('hassticky');
+            if (settings.thisobject != null) {
+                setPosition(settings);
+                settings.thisobject.tooltip.addClass('atlas-showTool-' + settings.pos);
+                if (settings.sticky == true) {
+                    if (settings.thisobject.tooltip.find('.stickyclose').length < 1)
+                        settings.thisobject.tooltip.find('div[class^="atlas-tool"]').append('<span class="stickyclose"></span>');
+                    settings.thisobject.tooltip.find('div[class^="atlas-tool"]').addClass('hassticky');
+                }
             }
         },
         hide: function (settings) {
-            settings.thisobject.tooltip.removeClass('atlas-showTool-' + settings.pos);
-            if (typeof settings.onClose == 'function' && settings.onClose != null) {
-                settings.onClose.call();
+            if (settings.thisobject != null) {
+                settings.thisobject.tooltip.removeClass('atlas-showTool-' + settings.pos);
+                if (typeof settings.onClose == 'function' && settings.onClose != null) {
+                    settings.onClose.call();
+                }
             }
         },
         updatePostion: function (settings) {
-            setPosition(settings);
+            if (settings.thisobject != null) {
+                setPosition(settings);
+            }
         },
         destroy: function (settings) {
-            settings.thisobject.tooltip.remove();
+            if (settings.thisobject != null) {
+                settings.thisobject.tooltip.remove();
+            }
         }
     }
 
